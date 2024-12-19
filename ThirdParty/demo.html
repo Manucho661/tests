@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auto-Toggle Content Example</title>
+  <style>
+    .content {
+      display: none; /* Content hidden initially */
+      padding: 10px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+
+    .toggle-btn {
+      margin: 10px;
+      padding: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Auto-Toggle Content Example</h2>
+  
+  <!-- Toggle Button -->
+  <button id="toggleBtn" class="toggle-btn">Toggle Content</button>
+  
+  <!-- Content to show/hide -->
+  <div id="contentBox" class="content">
+    This content is toggled automatically and will disappear after some time or when the cursor is not hovering the button.
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const toggleBtn = document.getElementById("toggleBtn");
+    const content = document.getElementById("contentBox");
+
+    // Function to toggle the content
+    function toggleContent() {
+      if (content.style.display === "none" || content.style.display === "") {
+        content.style.display = "block"; // Show the content
+      } else {
+        content.style.display = "none"; // Hide the content
+      }
+    }
+
+    // Automatically trigger the toggle function (for example, after 1 second)
+    setTimeout(toggleContent, 1000); // Show content after 1 second for demonstration
+
+    // Auto-hide content after 5 seconds (when toggled on)
+    let autoHideTimeout;
+
+    toggleBtn.addEventListener("click", () => {
+      toggleContent();
+      if (content.style.display === "block") {
+        // Set timeout to hide the content after 5 seconds
+        autoHideTimeout = setTimeout(() => {
+          content.style.display = "none";
+        }, 5000); // Hide content after 5 seconds
+      } else {
+        // Clear any previous timeout if the content is hidden
+        clearTimeout(autoHideTimeout);
+      }
+    });
+
+    // Hide content if the mouse leaves the toggle button
+    toggleBtn.addEventListener("mouseleave", function () {
+      content.style.display = "none";
+    });
+
+    // Show content when mouse enters the toggle button
+    toggleBtn.addEventListener("mouseenter", function () {
+      content.style.display = "block";
+    });
+  });
+</script>
+
+</body>
+</html>
